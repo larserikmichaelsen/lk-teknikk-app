@@ -3,106 +3,108 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0e2233" />
+<meta name="theme-color" content="#253c8d" />
 <title>LK Teknikk · Daglig brief</title>
 <link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
 <link rel="icon" type="image/png" href="icon-192.png" />
 <link rel="apple-touch-icon" href="icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="LK Brief" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --stal:#0e2233;
-    --stal-2:#16314a;
-    --stal-3:#1d3b58;
-    --oransje:#ff6a13;
-    --oransje-myk:#ff8a45;
-    --lys:#eef3f7;
-    --grå:#9fb3c4;
-    --grå-2:#6f879b;
-    --linje:rgba(255,255,255,.08);
-    --kort:rgba(255,255,255,.04);
-    --ok:#3ecf8e;
+    /* LK Teknikk-profil (fra lkteknikk.no) */
+    --blaa:#253c8d;        /* merkeblå */
+    --blaa-mork:#1a2b65;   /* mørk/hover */
+    --blaa-bg:#f0f0ff;     /* lys sidebakgrunn */
+    --blaa-tint:#ececf6;   /* svak blåtone */
+    --tekst:#212529;
+    --tekst-myk:#43454d;
+    --grå:#6c757d;
+    --grå-2:#8a8f98;
+    --linje:#e2e4ee;
+    --kort:#ffffff;
+    --ok:#28a745;          /* kontrakt-grønn (samme som nettsiden) */
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
-    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
-    background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(255,106,19,.10), transparent 60%),
-      linear-gradient(180deg,#0b1b29 0%, var(--stal) 40%, #0a1825 100%);
-    color:var(--lys);
+    font-family:"Open Sans","Helvetica Neue",Arial,system-ui,sans-serif;
+    background:var(--blaa-bg);
+    color:var(--tekst);
     min-height:100%;
     padding:0 0 48px;
+    border-top:3px solid var(--blaa);
     -webkit-font-smoothing:antialiased;
   }
+  h1,h2,.vaer-temp,.logo .navn{font-family:"Lato","Helvetica Neue",Arial,sans-serif}
   .wrap{max-width:1100px;margin:0 auto;padding:0 18px}
   header{
     position:sticky;top:0;z-index:20;
     backdrop-filter:blur(10px);
-    background:linear-gradient(180deg, rgba(11,27,41,.92), rgba(11,27,41,.72));
+    background:rgba(255,255,255,.88);
     border-bottom:1px solid var(--linje);
   }
   .topp{display:flex;align-items:center;gap:14px;padding:14px 0}
-  .logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px}
-  .logo .mark{
-    width:42px;height:42px;border-radius:10px;flex:0 0 auto;
-    background:linear-gradient(135deg,var(--oransje),#d4490a);
-    display:grid;place-items:center;font-size:18px;font-weight:900;color:#fff;
-    box-shadow:0 6px 18px rgba(255,106,19,.35);
+  .logo{display:flex;align-items:center;gap:13px}
+  .logo .mark{height:30px;width:auto;flex:0 0 auto;display:block}
+  .logo .navn{
+    font-size:11px;font-weight:900;color:var(--blaa);letter-spacing:2.5px;
+    padding-left:13px;border-left:1px solid var(--linje);text-transform:uppercase;
   }
-  .logo .navn{font-size:20px;line-height:1}
-  .logo .navn small{display:block;font-size:11px;font-weight:600;color:var(--grå);letter-spacing:2px;margin-top:3px}
   .topp .spacer{flex:1}
   .dato{text-align:right;color:var(--grå);font-size:13px;line-height:1.5}
-  .dato b{color:var(--lys);font-size:15px;text-transform:capitalize}
+  .dato b{color:var(--tekst);font-size:15px;text-transform:capitalize}
   .oppdater{
     margin-top:6px;display:inline-flex;align-items:center;gap:6px;
-    background:var(--kort);border:1px solid var(--linje);color:var(--grå);
+    background:#fff;border:1px solid var(--linje);color:var(--grå);
     padding:5px 10px;border-radius:20px;font-size:12px;cursor:pointer;transition:.15s;
   }
-  .oppdater:hover{border-color:var(--oransje);color:var(--lys)}
+  .oppdater:hover{border-color:var(--blaa);color:var(--blaa)}
   .oppdater.snurr svg{animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .hilsen{padding:26px 0 6px}
-  .hilsen h1{font-size:26px;font-weight:800;letter-spacing:.3px}
+  .hilsen h1{font-size:26px;font-weight:900;letter-spacing:.2px;color:var(--blaa-mork)}
   .hilsen p{color:var(--grå);margin-top:6px;font-size:14px}
-  .hilsen .strek{width:54px;height:4px;background:var(--oransje);border-radius:3px;margin-top:14px}
+  .hilsen .strek{width:54px;height:4px;background:var(--blaa);border-radius:3px;margin-top:14px}
   .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:22px;align-items:start}
   @media(max-width:860px){.grid{grid-template-columns:1fr}}
-  .kort{background:var(--kort);border:1px solid var(--linje);border-radius:16px;padding:18px 18px 8px;overflow:hidden}
+  .kort{background:var(--kort);border:1px solid var(--linje);border-radius:16px;padding:18px 18px 8px;overflow:hidden;box-shadow:0 1px 3px rgba(37,60,141,.06)}
   .kort.full{grid-column:1/-1}
-  .kort h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--grå);display:flex;align-items:center;gap:9px;margin-bottom:4px}
-  .kort h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--oransje)}
-  .kort h2 .num{margin-left:auto;color:var(--grå-2);font-size:11px;letter-spacing:1px}
+  .kort h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--blaa);display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .kort h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--blaa)}
+  .kort h2 .num{margin-left:auto;color:var(--grå);font-size:11px;letter-spacing:1px}
   .vaer-na{display:flex;align-items:center;gap:16px;padding:12px 4px 16px;border-bottom:1px solid var(--linje)}
   .vaer-ikon{font-size:54px;line-height:1}
-  .vaer-temp{font-size:46px;font-weight:800;line-height:1}
+  .vaer-temp{font-size:46px;font-weight:900;line-height:1;color:var(--blaa-mork)}
   .vaer-meta{color:var(--grå);font-size:13px;line-height:1.7;margin-top:2px}
-  .vaer-sted{color:var(--lys);font-weight:700;font-size:15px}
+  .vaer-sted{color:var(--tekst);font-weight:700;font-size:15px}
   .vaer-dager{display:flex;gap:6px;padding:14px 0 12px;overflow-x:auto}
-  .vd{flex:1 0 auto;min-width:64px;text-align:center;background:var(--stal-2);border:1px solid var(--linje);border-radius:12px;padding:10px 8px}
+  .vd{flex:1 0 auto;min-width:64px;text-align:center;background:var(--blaa-tint);border:1px solid var(--linje);border-radius:12px;padding:10px 8px}
   .vd .dag{font-size:11px;color:var(--grå);text-transform:uppercase;letter-spacing:1px}
   .vd .em{font-size:24px;margin:6px 0}
   .vd .max{font-weight:700;font-size:14px}
-  .vd .min{color:var(--grå-2);font-size:12px}
-  .vd .nb{color:#6fb3ff;font-size:10px;margin-top:3px}
+  .vd .min{color:var(--grå);font-size:12px}
+  .vd .nb{color:var(--blaa);font-size:10px;margin-top:3px}
   .liste{list-style:none}
   .item{display:block;padding:13px 4px;border-bottom:1px solid var(--linje);text-decoration:none;color:inherit;transition:.12s}
   .item:last-child{border-bottom:0}
-  .item:hover{background:rgba(255,255,255,.03);border-radius:8px;padding-left:10px;padding-right:10px}
-  .item .tittel{font-weight:600;font-size:15px;line-height:1.4;color:var(--lys)}
-  .item .meta{display:flex;align-items:center;gap:8px;margin-top:6px;color:var(--grå-2);font-size:12px;flex-wrap:wrap}
-  .item .kilde{color:var(--oransje-myk);font-weight:600}
-  .pill{font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--stal-3);color:var(--grå);padding:2px 8px;border-radius:20px;border:1px solid var(--linje)}
-  .pill.kontrakt{background:rgba(62,207,142,.12);color:var(--ok);border-color:rgba(62,207,142,.25)}
-  .laster,.tom{padding:26px 6px;text-align:center;color:var(--grå-2);font-size:14px}
-  .skelett{height:14px;background:linear-gradient(90deg,var(--stal-2),var(--stal-3),var(--stal-2));background-size:200% 100%;animation:shim 1.2s infinite;border-radius:6px;margin:10px 4px}
+  .item:hover{background:var(--blaa-bg);border-radius:8px;padding-left:10px;padding-right:10px}
+  .item .tittel{font-weight:600;font-size:15px;line-height:1.4;color:var(--tekst)}
+  .item .meta{display:flex;align-items:center;gap:8px;margin-top:6px;color:var(--grå);font-size:12px;flex-wrap:wrap}
+  .item .kilde{color:var(--blaa);font-weight:700}
+  .pill{font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--blaa-tint);color:var(--blaa);padding:2px 8px;border-radius:20px;border:1px solid var(--linje)}
+  .pill.kontrakt{background:rgba(40,167,69,.12);color:var(--ok);border-color:rgba(40,167,69,.25)}
+  .laster,.tom{padding:26px 6px;text-align:center;color:var(--grå);font-size:14px}
+  .skelett{height:14px;background:linear-gradient(90deg,var(--blaa-tint),#f6f6fc,var(--blaa-tint));background-size:200% 100%;animation:shim 1.2s infinite;border-radius:6px;margin:10px 4px}
   @keyframes shim{to{background-position:-200% 0}}
-  footer{margin-top:30px;color:var(--grå-2);font-size:12px;text-align:center;line-height:1.8}
-  footer a{color:var(--grå)}
+  footer{margin-top:30px;color:var(--grå);font-size:12px;text-align:center;line-height:1.8}
+  footer a{color:var(--blaa)}
   /* Mobil: respekter trygg sone (notch) og krymp litt paa smale skjermer */
   @supports(padding:max(0px)){
     .wrap{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
@@ -113,7 +115,8 @@
     .hilsen h1{font-size:22px}
     .vaer-temp{font-size:40px}
     .vaer-ikon{font-size:46px}
-    .logo .navn{font-size:18px}
+    .logo .mark{height:26px}
+    .logo .navn{display:none}
     .dato{font-size:12px}
   }
 </style>
@@ -122,8 +125,8 @@
   <header>
     <div class="wrap topp">
       <div class="logo">
-        <div class="mark">LK</div>
-        <div class="navn">LK&nbsp;TEKNIKK<small>DAGLIG BRIEF</small></div>
+        <svg class="mark" viewBox="0 0 256.38 64.51" role="img" aria-label="LK Teknikk"><defs><style>.cls-1{fill:#253c8d;}.cls-1,.cls-2{fill-rule:evenodd;}.cls-2{fill:#333;}</style></defs><g><polyline class="cls-1" points="101.68 4.32 256.38 4.32 256.38 0.01 104.99 0.01"/><path class="cls-2" d="M121.05,19.23v4.22h-7.52v22h-4.86v-22h-7.53V19.23Zm19.44,0h0v4.19H127.36V30h12.51v4.35H127.31v6.88h13.44v4.22H122.54V19.23Zm7.45,0h0V45.47h-4.86V19.23Zm18.45,0h0L155.2,31.47l12.37,14h-6.73L150.69,33.22V30.06l9.76-10.83Zm2.29,26.24h0V19.23h4.86l13.85,19.12V19.23h4.68V45.47h-4.86L173.36,26V45.47Zm27.09-26.24h4.86V45.47h-4.86V19.23Zm13.42,0h0V45.47h-4.87V19.23Zm18.45,0h0L216.45,31.47l12.36,14h-6.73L211.94,33.22V30.06l9.76-10.83Zm7.87,0h0V45.47h-4.86V19.23Zm18.46,0h0L242.78,31.47l12.36,14h-6.73L238.26,33.22V30.06L248,19.23Z"/><path class="cls-2" d="M12.09,52.42h0V0H0v64.5H42.62l18-22,18.88,22H95.35L68.4,32.93,95.25,0H81.31L38.66,52.42ZM38.67,0H50.76V20.75l-12.09,14V0Z"/><polyline class="cls-1" points="104.8 64.52 256.31 64.52 256.31 60.2 101.68 60.2"/><polygon class="cls-1" points="38.67 0 50.76 0 50.76 20.75 38.67 34.71 38.67 0 38.67 0"/></g></svg>
+        <div class="navn">Daglig brief</div>
       </div>
       <div class="spacer"></div>
       <div class="dato">
