@@ -1,7 +1,7 @@
 // LK Teknikk - service worker
 // Cacher app-skallet slik at appen starter raskt og fungerer offline.
 // Nyheter og vaer hentes alltid live fra nett (caches ikke).
-const CACHE = 'lk-teknikk-v2';
+const CACHE = 'lk-teknikk-v3';
 const SKALL = [
   './',
   './index.html',
@@ -28,10 +28,19 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
-  // Bare egne (same-origin) statiske filer caches. API-kall gaar rett til nett.
-  if (url.origin === location.origin) {
-    e.respondWith(
-      caches.match(e.request).then(treff => treff || fetch(e.request))
-    );
-  }
+  // Bare egne (same-origin) statiske filer haandteres her. API-kall gaar rett til nett.
+  if (url.origin !== location.origin) return;
+  // Network-first: hent alltid fersk app-skall naar vi er online, og oppdater cachen.
+  // Faller tilbake paa cache (offline-oppstart) hvis nettet er nede.
+  e.respondWith(
+    fetch(e.request)
+      .then(svar => {
+        if (svar && svar.ok) {
+          const kopi = svar.clone();
+          caches.open(CACHE).then(c => c.put(e.request, kopi));
+        }
+        return svar;
+      })
+      .catch(() => caches.match(e.request))
+  );
 });
