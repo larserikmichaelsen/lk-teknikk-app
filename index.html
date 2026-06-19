@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e2233" />
+<title>LK Teknikk · Daglig brief</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" type="image/png" href="icon-192.png" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="LK Brief" />
+<style>
+  :root{
+    --stal:#0e2233;
+    --stal-2:#16314a;
+    --stal-3:#1d3b58;
+    --oransje:#ff6a13;
+    --oransje-myk:#ff8a45;
+    --lys:#eef3f7;
+    --grå:#9fb3c4;
+    --grå-2:#6f879b;
+    --linje:rgba(255,255,255,.08);
+    --kort:rgba(255,255,255,.04);
+    --ok:#3ecf8e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,106,19,.10), transparent 60%),
+      linear-gradient(180deg,#0b1b29 0%, var(--stal) 40%, #0a1825 100%);
+    color:var(--lys);
+    min-height:100%;
+    padding:0 0 48px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+  header{
+    position:sticky;top:0;z-index:20;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(180deg, rgba(11,27,41,.92), rgba(11,27,41,.72));
+    border-bottom:1px solid var(--linje);
+  }
+  .topp{display:flex;align-items:center;gap:14px;padding:14px 0}
+  .logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px}
+  .logo .mark{
+    width:42px;height:42px;border-radius:10px;flex:0 0 auto;
+    background:linear-gradient(135deg,var(--oransje),#d4490a);
+    display:grid;place-items:center;font-size:18px;font-weight:900;color:#fff;
+    box-shadow:0 6px 18px rgba(255,106,19,.35);
+  }
+  .logo .navn{font-size:20px;line-height:1}
+  .logo .navn small{display:block;font-size:11px;font-weight:600;color:var(--grå);letter-spacing:2px;margin-top:3px}
+  .topp .spacer{flex:1}
+  .dato{text-align:right;color:var(--grå);font-size:13px;line-height:1.5}
+  .dato b{color:var(--lys);font-size:15px;text-transform:capitalize}
+  .oppdater{
+    margin-top:6px;display:inline-flex;align-items:center;gap:6px;
+    background:var(--kort);border:1px solid var(--linje);color:var(--grå);
+    padding:5px 10px;border-radius:20px;font-size:12px;cursor:pointer;transition:.15s;
+  }
+  .oppdater:hover{border-color:var(--oransje);color:var(--lys)}
+  .oppdater.snurr svg{animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hilsen{padding:26px 0 6px}
+  .hilsen h1{font-size:26px;font-weight:800;letter-spacing:.3px}
+  .hilsen p{color:var(--grå);margin-top:6px;font-size:14px}
+  .hilsen .strek{width:54px;height:4px;background:var(--oransje);border-radius:3px;margin-top:14px}
+  .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:22px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .kort{background:var(--kort);border:1px solid var(--linje);border-radius:16px;padding:18px 18px 8px;overflow:hidden}
+  .kort.full{grid-column:1/-1}
+  .kort h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--grå);display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .kort h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--oransje)}
+  .kort h2 .num{margin-left:auto;color:var(--grå-2);font-size:11px;letter-spacing:1px}
+  .vaer-na{display:flex;align-items:center;gap:16px;padding:12px 4px 16px;border-bottom:1px solid var(--linje)}
+  .vaer-ikon{font-size:54px;line-height:1}
+  .vaer-temp{font-size:46px;font-weight:800;line-height:1}
+  .vaer-meta{color:var(--grå);font-size:13px;line-height:1.7;margin-top:2px}
+  .vaer-sted{color:var(--lys);font-weight:700;font-size:15px}
+  .vaer-dager{display:flex;gap:6px;padding:14px 0 12px;overflow-x:auto}
+  .vd{flex:1 0 auto;min-width:64px;text-align:center;background:var(--stal-2);border:1px solid var(--linje);border-radius:12px;padding:10px 8px}
+  .vd .dag{font-size:11px;color:var(--grå);text-transform:uppercase;letter-spacing:1px}
+  .vd .em{font-size:24px;margin:6px 0}
+  .vd .max{font-weight:700;font-size:14px}
+  .vd .min{color:var(--grå-2);font-size:12px}
+  .vd .nb{color:#6fb3ff;font-size:10px;margin-top:3px}
+  .liste{list-style:none}
+  .item{display:block;padding:13px 4px;border-bottom:1px solid var(--linje);text-decoration:none;color:inherit;transition:.12s}
+  .item:last-child{border-bottom:0}
+  .item:hover{background:rgba(255,255,255,.03);border-radius:8px;padding-left:10px;padding-right:10px}
+  .item .tittel{font-weight:600;font-size:15px;line-height:1.4;color:var(--lys)}
+  .item .meta{display:flex;align-items:center;gap:8px;margin-top:6px;color:var(--grå-2);font-size:12px;flex-wrap:wrap}
+  .item .kilde{color:var(--oransje-myk);font-weight:600}
+  .pill{font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--stal-3);color:var(--grå);padding:2px 8px;border-radius:20px;border:1px solid var(--linje)}
+  .pill.kontrakt{background:rgba(62,207,142,.12);color:var(--ok);border-color:rgba(62,207,142,.25)}
+  .laster,.tom{padding:26px 6px;text-align:center;color:var(--grå-2);font-size:14px}
+  .skelett{height:14px;background:linear-gradient(90deg,var(--stal-2),var(--stal-3),var(--stal-2));background-size:200% 100%;animation:shim 1.2s infinite;border-radius:6px;margin:10px 4px}
+  @keyframes shim{to{background-position:-200% 0}}
+  footer{margin-top:30px;color:var(--grå-2);font-size:12px;text-align:center;line-height:1.8}
+  footer a{color:var(--grå)}
+  /* Mobil: respekter trygg sone (notch) og krymp litt paa smale skjermer */
+  @supports(padding:max(0px)){
+    .wrap{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+    body{padding-bottom:max(48px,calc(env(safe-area-inset-bottom) + 24px))}
+  }
+  @media(max-width:560px){
+    .hilsen{padding-top:20px}
+    .hilsen h1{font-size:22px}
+    .vaer-temp{font-size:40px}
+    .vaer-ikon{font-size:46px}
+    .logo .navn{font-size:18px}
+    .dato{font-size:12px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap topp">
+      <div class="logo">
+        <div class="mark">LK</div>
+        <div class="navn">LK&nbsp;TEKNIKK<small>DAGLIG BRIEF</small></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="dato">
+        <b id="ukedag">—</b>
+        <div id="fulldato">—</div>
+        <button class="oppdater" id="refresh" title="Oppdater">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          <span id="oppdtekst">Oppdater</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hilsen">
+      <h1 id="hilsentekst">God morgen 👋</h1>
+      <p>Din daglige oversikt — industrinyheter, kontrakter og vær fra siste døgn.</p>
+      <div class="strek"></div>
+    </section>
+
+    <div class="grid">
+      <div class="kort">
+        <h2><span class="dot"></span>Aktuelle nyheter <span class="num" id="nyhet-num"></span></h2>
+        <ul class="liste" id="nyheter">
+          <div class="skelett" style="width:90%"></div>
+          <div class="skelett" style="width:75%"></div>
+          <div class="skelett" style="width:85%"></div>
+        </ul>
+      </div>
+      <div class="kort">
+        <h2><span class="dot"></span>Vær · Sarpsborg</h2>
+        <div id="vaer"><div class="laster">Henter værvarsel…</div></div>
+      </div>
+      <div class="kort full">
+        <h2><span class="dot"></span>Store kontrakter siste døgn <span class="num" id="kontrakt-num"></span></h2>
+        <ul class="liste" id="kontrakter">
+          <div class="skelett" style="width:80%"></div>
+          <div class="skelett" style="width:70%"></div>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      Skreddersydd for <b>LK Teknikk AS</b> · Borgenhaugen, Sarpsborg<br>
+      Vær fra <a href=https://open-meteo.com target="_blank" rel="noopener">Open-Meteo</a> ·
+      Nyheter fra Google Nyheter · Oppdateres automatisk
+    </footer>
+  </main>
+
+<script>
+const STED = { navn:"Sarpsborg", lat:59.2839, lon:11.1096 };
+const NYHET_SOK = [
+  '(industri OR verft OR sveis OR "mekanisk industri" OR offshore OR leverandørindustri)',
+  '("bygg og anlegg" OR industribedrift OR maritim OR fornybar OR havvind)'
+];
+const KONTRAKT_SOK = [
+  '(kontrakt OR storkontrakt OR milliardkontrakt OR rammeavtale OR "tildelt oppdrag") (industri OR offshore OR verft OR bygg OR entreprenør OR energi OR fornybar)',
+  '(signerte OR "inngått avtale" OR leveranse OR oppdrag) (industri OR offshore OR verft OR leverandør)'
+];
+const KONTRAKT_ORD = /kontrakt|avtale|oppdrag|tildel|signer|leveranse|bestilling|milliard|ordre/i;
+
+const $ = s => document.querySelector(s);
+
+function settDato(){
+  const n = new Date();
+  const uke = n.toLocaleDateString('no-NO',{weekday:'long'});
+  $('#ukedag').textContent = uke.charAt(0).toUpperCase()+uke.slice(1);
+  $('#fulldato').textContent = n.toLocaleDateString('no-NO',{day:'numeric',month:'long',year:'numeric'});
+  const t = n.getHours();
+  $('#hilsentekst').textContent = t<10?'God morgen ☀️': t<17?'God dag 👋':'God kveld 🌙';
+}
+
+function tidSiden(dato){
+  const d = (Date.now()-dato.getTime())/1000;
+  if(d<3600) return Math.max(1,Math.round(d/60))+' min siden';
+  if(d<86400) return Math.round(d/3600)+' t siden';
+  return Math.round(d/86400)+' d siden';
+}
+
+async function hentTekst(url){
+  // Naar appen kjorer via den lokale hjelperen (http://localhost) brukes den foerst -
+  // da finnes ikke CORS-sperren. Faller tilbake til offentlige proxyer ellers.
+  const lokalProxy = (location.protocol === 'http:' || location.protocol === 'https:')
+    ? [ u => '/proxy?url='+encodeURIComponent(u) ] : [];
+  const proxier = [
+    ...lokalProxy,
+    u => 'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
+    u => 'https://corsproxy.io/?url='+encodeURIComponent(u),
+    u => 'https://thingproxy.freeboard.io/fetch/'+u
+  ];
+  for(const p of proxier){
+    try{
+      const r = await fetch(p(url),{cache:'no-store'});
+      if(r.ok){ const t = await r.text(); if(t && t.length>200) return t; }
+    }catch(e){}
+  }
+  throw new Error('Klarte ikke hente data');
+}
+
+function rssUrl(sok, dager='1d'){
+  const q = encodeURIComponent(sok+' when:'+dager);
+  return `https://news.google.com/rss/search?q=${q}&hl=no&gl=NO&ceid=NO:no`;
+}
+
+// encodeURIComponent koder ikke ( ) - rss2json trenger dem kodet
+function encParam(u){ return encodeURIComponent(u).replace(/\(/g,'%28').replace(/\)/g,'%29'); }
+
+// Henter saker for én feed-URL. Foerst rss2json (sender CORS-headere -> virker
+// direkte i nettleseren, ogsaa paa mobil). Faller tilbake til proxy (XML) hvis noedvendig.
+async function hentFeedSaker(feedUrl){
+  try{
+    const r = await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encParam(feedUrl),{cache:'no-store'});
+    if(r.ok){
+      const j = await r.json();
+      if(j.status==='ok' && Array.isArray(j.items)){
+        return j.items.map(it=>({
+          tittel: it.title||'',
+          lenke:  it.link||'',
+          dato:   it.pubDate ? new Date(it.pubDate.replace(' ','T')) : new Date()
+        }));
+      }
+    }
+  }catch(e){}
+  try{
+    const xml = await hentTekst(feedUrl);
+    const doc = new DOMParser().parseFromString(xml,'text/xml');
+    return [...doc.querySelectorAll('item')].map(it=>({
+      tittel: it.querySelector('title')?.textContent||'',
+      lenke:  it.querySelector('link')?.textContent||'',
+      dato:   it.querySelector('pubDate')?.textContent ? new Date(it.querySelector('pubDate').textContent) : new Date()
+    }));
+  }catch(e){ return []; }
+}
+
+async function hentRss(sokListe, dager='1d'){
+  const alle = []; const sett = new Set();
+  for(const sok of sokListe){
+    const saker = await hentFeedSaker(rssUrl(sok, dager));
+    saker.forEach(s=>{
+      const tittel = s.tittel||'';
+      let kilde='';let rentittel=tittel;
+      const m = tittel.match(/^(.*) - ([^-]+)$/);
+      if(m){rentittel=m[1];kilde=m[2].trim();}
+      const nokkel = rentittel.toLowerCase().slice(0,60);
+      if(!rentittel || sett.has(nokkel)) return;
+      sett.add(nokkel);
+      alle.push({tittel:rentittel,lenke:s.lenke,dato:s.dato,kilde});
+    });
+  }
+  alle.sort((a,b)=>b.dato-a.dato);
+  return alle;
+}
+
+function renderNyheter(liste){
+  const el = $('#nyheter');
+  if(!liste.length){el.innerHTML='<div class="tom">Fant ingen nye saker akkurat nå. Prøv «Oppdater» igjen.</div>';return;}
+  const topp = liste.slice(0,9);
+  $('#nyhet-num').textContent = topp.length+' saker';
+  el.innerHTML = topp.map(n=>`
+    <a class="item" href="${n.lenke}" target="_blank" rel="noopener">
+      <div class="tittel">${n.tittel}</div>
+      <div class="meta"><span class="kilde">${n.kilde||'Nyhet'}</span>·<span>${tidSiden(n.dato)}</span></div>
+    </a>`).join('');
+}
+
+function renderKontrakter(liste){
+  const el = $('#kontrakter');
+  if(!liste.length){el.innerHTML='<div class="tom">Ingen registrerte kontraktnyheter siste døgn.</div>';return;}
+  const topp = liste.slice(0,7);
+  $('#kontrakt-num').textContent = topp.length+' saker';
+  el.innerHTML = topp.map(n=>`
+    <a class="item" href="${n.lenke}" target="_blank" rel="noopener">
+      <div class="tittel">${n.tittel}</div>
+      <div class="meta"><span class="pill kontrakt">Kontrakt</span><span class="kilde">${n.kilde||'Nyhet'}</span>·<span>${tidSiden(n.dato)}</span></div>
+    </a>`).join('');
+}
+
+const VKODE = {
+  0:['☀️','Klart'],1:['🌤️','Stort sett klart'],2:['⛅','Delvis skyet'],3:['☁️','Skyet'],
+  45:['🌫️','Tåke'],48:['🌫️','Rimtåke'],
+  51:['🌦️','Lett yr'],53:['🌦️','Yr'],55:['🌧️','Kraftig yr'],
+  61:['🌧️','Lett regn'],63:['🌧️','Regn'],65:['🌧️','Kraftig regn'],
+  66:['🌧️','Underkjølt regn'],67:['🌧️','Underkjølt regn'],
+  71:['🌨️','Lett snø'],73:['🌨️','Snø'],75:['❄️','Kraftig snø'],77:['❄️','Snøkorn'],
+  80:['🌦️','Regnbyger'],81:['🌧️','Regnbyger'],82:['⛈️','Kraftige byger'],
+  85:['🌨️','Snøbyger'],86:['❄️','Snøbyger'],
+  95:['⛈️','Tordenvær'],96:['⛈️','Torden m/hagl'],99:['⛈️','Kraftig torden']
+};
+const vk = c => VKODE[c]||['🌡️','—'];
+
+async function hentVaer(){
+  const u = `https://api.open-meteo.com/v1/forecast?latitude=${STED.lat}&longitude=${STED.lon}`+
+    `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m`+
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum`+
+    `&timezone=Europe%2FOslo&forecast_days=5`;
+  const el = $('#vaer');
+  try{
+    const r = await fetch(u,{cache:'no-store'});
+    const d = await r.json();
+    const c = d.current;
+    const [em,tekst] = vk(c.weather_code);
+    const dager = d.daily.time.map((t,i)=>{
+      const dag = new Date(t).toLocaleDateString('no-NO',{weekday:'short'});
+      const [e] = vk(d.daily.weather_code[i]);
+      return {dag:dag.replace('.',''),em:e,
+        max:Math.round(d.daily.temperature_2m_max[i]),
+        min:Math.round(d.daily.temperature_2m_min[i]),
+        nb:d.daily.precipitation_sum[i]};
+    });
+    el.innerHTML = `
+      <div class="vaer-na">
+        <div class="vaer-ikon">${em}</div>
+        <div>
+          <div class="vaer-temp">${Math.round(c.temperature_2m)}°</div>
+          <div class="vaer-sted">${STED.navn}</div>
+          <div class="vaer-meta">${tekst} · føles ${Math.round(c.apparent_temperature)}° · vind ${Math.round(c.wind_speed_10m)} m/s</div>
+        </div>
+      </div>
+      <div class="vaer-dager">
+        ${dager.map((v,i)=>`
+          <div class="vd">
+            <div class="dag">${i===0?'I dag':v.dag}</div>
+            <div class="em">${v.em}</div>
+            <div class="max">${v.max}°</div>
+            <div class="min">${v.min}°</div>
+            ${v.nb>0?`<div class="nb">${v.nb.toFixed(1)} mm</div>`:''}
+          </div>`).join('')}
+      </div>`;
+  }catch(e){
+    el.innerHTML = '<div class="tom">Klarte ikke hente værvarsel.</div>';
+  }
+}
+
+async function lastAlt(){
+  const btn = $('#refresh'); btn.classList.add('snurr'); $('#oppdtekst').textContent='Henter…';
+  settDato();
+  await Promise.all([
+    hentVaer(),
+    hentRss(NYHET_SOK).then(renderNyheter).catch(()=>renderNyheter([])),
+    hentRss(KONTRAKT_SOK,'2d')
+      .then(l => l.filter(n => KONTRAKT_ORD.test(n.tittel)))
+      .then(renderKontrakter).catch(()=>renderKontrakter([]))
+  ]);
+  btn.classList.remove('snurr'); $('#oppdtekst').textContent='Oppdater';
+}
+
+$('#refresh').addEventListener('click',lastAlt);
+lastAlt();
+setInterval(lastAlt, 30*60*1000);
+
+// Registrer service worker (kun paa https eller localhost). Gir installerbar app + offline-oppstart.
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
