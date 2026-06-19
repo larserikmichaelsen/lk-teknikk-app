@@ -1,11 +1,16 @@
 // LK Teknikk - service worker
 // Cacher app-skallet slik at appen starter raskt og fungerer offline.
 // Nyheter og vaer hentes alltid live fra nett (caches ikke).
-const CACHE = 'lk-teknikk-v4';
+const CACHE = 'lk-teknikk-v5';
 const SKALL = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './favicon.svg',
+  './favicon.ico',
+  './favicon-16.png',
+  './favicon-32.png',
+  './favicon-48.png',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
